@@ -136,16 +136,7 @@ if (window.innerWidth > 1024) {
 else{
     var particleArray = null;
     
-    window.onresize = function () {
-        if(window.innerWidth>1024){
-            location.reload();
-        }
-        else{
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        spawn();
-        }
-    }
+ 
 
     function spawn() {
 	    context.clearRect(0, 0, innerWidth, innerHeight);
