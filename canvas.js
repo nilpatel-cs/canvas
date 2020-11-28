@@ -28,7 +28,7 @@ var particleArray = null;
         canvas.height = window.innerHeight;
         spawn();
     }
-}
+
     class particle {
 
         constructor(i) {
@@ -65,7 +65,7 @@ var particleArray = null;
             this.draw();
         }
     }
-
+}
 
     function drawLine(u, v) {
         context.beginPath();
