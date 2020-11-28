@@ -1,12 +1,11 @@
 body{
     background-color: #121212;
-    overflow: hidden;    
+    overflow: hidden;
 }
-#test{
-    color:hotpink;
-    position: absolute;
-    top:50%;
+#logo {
+    position:absolute;
     left:50%;
-    transform: translateX(-50%) translateY(-50%);
-    z-index: 200    ;
+    top:50%;
+    transform:translateX(-50%) translateY(-50%);
+    width:40%;
 }
