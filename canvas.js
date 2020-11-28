@@ -98,7 +98,6 @@ var particleArray = null;
     
         
     }
-
     spawn();
     animate();
 
