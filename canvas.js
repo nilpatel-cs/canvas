@@ -7,7 +7,7 @@ canvas.height=window.innerHeight;
 
 if(window.innerWidth<=1024){
     document.getElementById('test').innerHTML='TRUE';
-}
+
 
 
 var particleArray = null;
@@ -164,4 +164,4 @@ function djikstra() {
         return lowest;
     }
 }
-
+}
