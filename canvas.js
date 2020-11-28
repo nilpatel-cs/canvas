@@ -87,7 +87,7 @@ var particleArray = null;
         context.stroke();
     }
 
-
+}
     function animate() {
         requestAnimationFrame(animate);
         context.clearRect(0, 0, innerWidth, innerHeight);
@@ -98,7 +98,7 @@ var particleArray = null;
     
         
     }
-}
+
     spawn();
     animate();
 
