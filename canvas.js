@@ -3,140 +3,15 @@ const context = canvas.getContext('2d');
 canvas.width=window.innerWidth;
 canvas.height=window.innerHeight;
 
-if (window.innerWidth > 1024) {
+
     var particleArray = null;
-    let mouse = {
-        x: -1,
-        y: null
-    }
-
-
-    window.addEventListener("mousemove", function (event) {
-		spawn();
-
-    });
-
-    window.onresize = function () { 
-        if(window.innerWidth<=1024){
-            location.reload();
-        }
-        else{
+    
+    window.onresize = function () {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        } 
-    } //if  I dont do this resize ruins the particles
-
-    window.addEventListener("mouseout", function (event) {
-        context.clearRect(0, 0, innerWidth, innerHeight);
-        mouse.x = -5;
-        particleArray = null;
-
-    });
-
-	function spawn() {
-		context.clearRect(0, 0, innerWidth, innerHeight);
-		dx = event.x - mouse.x;
-		dy = event.y - mouse.y;
-		mouse.x = event.x;
-		mouse.y = event.y;
-		if (particleArray == null) {
-			particleArray = [];
-			for (i = 0; i < 30; i++) {
-				particleArray[i] = new particle(i);
-			}
-		}
-		else {
-			for (i = 0; i < particleArray.length; i++) {
-				particleArray[i].follow(dx, dy);
-			}
-		}
-	}
-
-
-    class particle {
-
-        constructor(i) {
-            this.id = i;
-            this.x = mouse.x + plusMinus() * Math.random() * canvas.height / 10;
-            this.y = mouse.y + plusMinus() * Math.random() * Math.sqrt(Math.pow(canvas.height / 10, 2) - Math.pow(this.x - mouse.x, 2));
-            this.size = 3;
-			this.xVelocity = plusMinus() * Math.random() * (canvas.height / 5000);
-            this.yVelocity = plusMinus() * Math.random() * (canvas.height / 5000);
-            context.beginPath();
-            context.fillStyle = "white";
-            context.strokeStyle = "white";
-            context.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-            context.closePath();
-            context.fill();
+        spawn();
         }
-        follow(x, y) {
-            this.x += x;
-            this.y += y;
-            context.beginPath();
-            context.fillStyle = "white";
-            context.strokeStyle = "white";
-            context.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-            context.closePath();
-            context.fill();
-        }
-        draw() {
-            context.beginPath();
-            context.fillStyle = "white";
-            context.strokeStyle = "white";
-            context.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-            context.closePath();
-            context.fill();
-        }
-        move() {
-            if (canvas.height / 10 < Math.sqrt(Math.pow(this.x + this.xVelocity - mouse.x, 2) + Math.pow(this.y + this.yVelocity - mouse.y, 2))) {
-                this.xVelocity *= -1;
-                this.yVelocity *= -1;
-            }
-            this.x += this.xVelocity;
-            this.y += this.yVelocity;
-            this.draw();
-        }
-    }
-    function drawLine(u, v) {
-        context.beginPath();
-        context.setLineDash([]);
-        context.strokeStyle = "darkOrange";
-        context.lineWidth = 15/dist(u, v);
-        context.moveTo(u.x, u.y);
-        context.lineTo(v.x, v.y);
-        context.stroke();
-    }
     
-    function drawLineFormer(u, v) {
-        context.beginPath();
-        context.strokeStyle = "rgba(192,192,192,.5)";
-        context.moveTo(u.x, u.y);
-        context.lineTo(v.x, v.y);
-        context.lineWidth = 10/dist(u, v);
-        context.setLineDash([5]);
-        context.stroke();
-    }
-
-    function animate() {
-        requestAnimationFrame(animate);
-        context.clearRect(0, 0, innerWidth, innerHeight);
-        if (mouse.x < 0) {
-            return;
-        }
-        else {
-            for (i = 0; i < particleArray.length; i++) {
-                particleArray[i].move();
-
-            }
-            djikstra();
-        }
-    }
-    animate();
-}
-else{
-    var particleArray = null;
-    
- 
 
     function spawn() {
 	    context.clearRect(0, 0, innerWidth, innerHeight);
@@ -199,7 +74,7 @@ function animate() {
 }
 spawn();
 animate();
-}
+
 
 function djikstra() {
     var connected = [];
