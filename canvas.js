@@ -9,7 +9,7 @@ if(window.innerWidth<=1024)
     var mobile = true;
 
 
-if(mobile)
+if(mobile){
 var particleArray = null;
 
 
@@ -20,9 +20,9 @@ var particleArray = null;
             for (i = 0; i < 50; i++) {
                 particleArray[i] = new particle(i);
         }
-
-        
     }
+        
+}
     window.onresize = function () {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
