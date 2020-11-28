@@ -65,7 +65,7 @@ var particleArray = null;
             this.draw();
         }
     }
-
+}
 
     function drawLine(u, v) {
         context.beginPath();
@@ -76,7 +76,7 @@ var particleArray = null;
         context.lineTo(v.x, v.y);
         context.stroke();
     }
-}
+
     function drawLineFormer(u, v) {
         context.beginPath();
         context.strokeStyle = "rgba(200,200,200,.5)";
