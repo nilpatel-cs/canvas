@@ -2,17 +2,51 @@ const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 canvas.width=window.innerWidth;
 canvas.height=window.innerHeight;
-
-
-
-if(window.innerWidth<=1024)
-    var mobile = true;
-else
-    var mobile = false;
-
-
 var particleArray = null;
+var posX, posY;
+var mobile =null;
+if(window.innerWidth<=1024)
+    mobile = true;
+else{
+    mobile = false;
+}
+let mouse = {
+    x: -1,
+    y: null
+}
 
+ window.onresize = function () {
+        if(mobile&&window.innerWidth>1024){
+            mobile = false;
+            location.reload();
+        
+        }
+        else if(!mobile&&window.innerWidth<=1024){
+            mobile = true;
+            location.reload();
+        }
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        spawn();
+    }
+
+
+
+/*event for mouse coordinates and leaving entering window for desktop */    
+    if(!mobile){
+     
+        window.addEventListener("mousemove", function showCoords(event) {
+            posX = event.clientX;
+            posY = event.clientY;
+            spawn();
+        });
+    
+        window.addEventListener("mouseout", function (event) {
+            context.clearRect(0, 0, innerWidth, innerHeight);
+            posX = -5;
+            particleArray = null;
+    });
+    }
 
     function spawn() {
         context.clearRect(0, 0, innerWidth, innerHeight);
@@ -23,10 +57,10 @@ var particleArray = null;
                 }
         }
         else{
-            dx = event.x - mouse.x;
-		    dy = event.y - mouse.y;
-		    mouse.x = event.x;
-		    mouse.y = event.y;
+            dx = posX - mouse.x;
+		    dy = posY - mouse.y;
+		    mouse.x = posX;
+		    mouse.y = posY;
 		    if (particleArray == null) {
 			    particleArray = [];
 			    for (i = 0; i < 30; i++) {
@@ -41,56 +75,75 @@ var particleArray = null;
 	    }
     }
     
-    
-        
-
-    window.onresize = function () {
-        if(mobile&&window.innerWidth>1024)
-            mobile = false;
-        else if(!mobile&&window.innerWidth<=1024)
-            mobile = true;
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        spawn();
-    }
 
     class particle {
 
         constructor(i) {
-        
             this.id = i;
-            this.x = Math.random() * canvas.width / 4 * plusMinus() + canvas.width / 2;
 
-            this.y = canvas.height / 2 + plusMinus() *Math.random()* Math.sqrt(Math.pow(canvas.width / 4, 2) - Math.pow(this.x - canvas.width / 2, 2));
-            
-            this.size = 3;
-            this.xVelocity = plusMinus() * Math.random() * (canvas.width / 1500);
-            this.yVelocity = plusMinus() * Math.random() * (canvas.width / 1500);
+            if(mobile){
+                this.x = Math.random() * canvas.width / 4 * plusMinus() + canvas.width / 2;
+                this.y = canvas.height / 2 + plusMinus() *Math.random()* Math.sqrt(Math.pow(canvas.width / 4, 2) - Math.pow(this.x - canvas.width / 2, 2));
+                if(canvas.width<650)
+                    this.size = 1;
+                else
+                    this.size = 1.5;
+                this.xVelocity = plusMinus() * Math.random() * (canvas.width / 1200);
+                this.yVelocity = plusMinus() * Math.random() * (canvas.width / 1200);
+            }
+            else{
+                this.x = mouse.x + plusMinus() * Math.random() * canvas.height / 10;
+                this.y = mouse.y + plusMinus() * Math.random() * Math.sqrt(Math.pow(canvas.height / 10, 2) - Math.pow(this.x - mouse.x, 2));
+                this.size = 2;
+                this.xVelocity = plusMinus() * Math.random() * (canvas.height / 5000);
+                this.yVelocity = plusMinus() * Math.random() * (canvas.height / 5000);
+            }
+           
             this.draw();
         }
 
         draw() {
             context.beginPath();
-            context.fillStyle = "white";
-            context.strokeStyle = "white";
+            if(mobile){
+                if(canvas.width<650){
+                    context.fillStyle = "rgba(255,255,255,.5)";
+                    context.strokeStyle = "rgba(255,255,255,.5)";
+                }
+                else{
+                    context.fillStyle = "rgba(255,255,255,.8)";
+                    context.strokeStyle = "rgba(255,255,255,.8)";
+                }
+            }
+            else{
+                context.fillStyle = "rgba(240,240,240,.8)";
+                context.strokeStyle = "rgba(240,240,240,.8)";
+            }
             context.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
             context.closePath();
             context.fill();
         }
         move() {
-            if (canvas.width/4<Math.sqrt(Math.pow(this.x + this.xVelocity - canvas.width / 2, 2) + Math.pow(this.y + this.yVelocity - canvas.height / 2, 2))) {
-                this.xVelocity *= -1;
-                this.yVelocity *= -1;
+            if(mobile){
+                if (canvas.width/4<Math.sqrt(Math.pow(this.x + this.xVelocity - canvas.width / 2, 2) + Math.pow(this.y + this.yVelocity - canvas.height / 2, 2))) {
+                    this.xVelocity *= -1;
+                    this.yVelocity *= -1;
+                }
             }
-                    
-            
-        
+            else if (canvas.height / 10 < Math.sqrt(Math.pow(this.x + this.xVelocity - mouse.x, 2) + Math.pow(this.y + this.yVelocity - mouse.y, 2))) {
+                    this.xVelocity *= -1;
+                    this.yVelocity *= -1;
+            }
             this.x += this.xVelocity;
             this.y += this.yVelocity;
             this.draw();
         }
-    }
 
+        follow(x, y) {
+            this.x += x;
+            this.y += y;
+            this.draw();
+    }
+    }
 
     function drawLine(u, v) {
         context.beginPath();
@@ -114,16 +167,20 @@ var particleArray = null;
 
 
     function animate() {
+        if(mobile||mouse.x>0){
         requestAnimationFrame(animate);
         context.clearRect(0, 0, innerWidth, innerHeight);
             for (i = 0; i < particleArray.length; i++) {
                 particleArray[i].move();
         } 
         djikstra();
-    
+        }
+        else
+            return; 
         
     }
-    spawn();
+    if(mobile)
+        spawn();
     animate();
 
 /*shared functions */
