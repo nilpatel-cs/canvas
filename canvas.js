@@ -65,7 +65,7 @@ var particleArray = null;
             this.draw();
         }
     }
-}
+
 
     function drawLine(u, v) {
         context.beginPath();
@@ -98,6 +98,7 @@ var particleArray = null;
     
         
     }
+}
     spawn();
     animate();
 
