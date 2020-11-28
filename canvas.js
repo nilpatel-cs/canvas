@@ -110,7 +110,7 @@ function djikstra() {
 function drawLine(u, v) {
     context.beginPath();
     context.setLineDash([]);
-    context.strokeStyle = "rgba(255,105,180,.8)";
+    context.strokeStyle = "rgba(255,140,0,.8)";
     context.lineWidth = 75/dist(u,v);
     context.moveTo(u.x, u.y);
     context.lineTo(v.x, v.y);
