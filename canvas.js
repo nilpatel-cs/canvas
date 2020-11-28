@@ -149,10 +149,11 @@ var mouse = {
           context.beginPath();
           context.setLineDash([]);
           context.strokeStyle = "rgba(255,140,0,.8)";
+          let magnitude = (canvas.width/2-dist(u,v))/(canvas.width/2);
           if(canvas.width<650)
-                context.lineWidth = 10/dist(u, v);
+                context.lineWidth = .5 * magnitude;
           else
-            context.lineWidth = 15/dist(u, v);
+            context.lineWidth = 1 * magnitude;
           context.moveTo(u.x, u.y);
           context.lineTo(v.x, v.y);
           context.stroke();
@@ -161,7 +162,7 @@ var mouse = {
             context.beginPath();
             context.setLineDash([]);
             context.strokeStyle = "rgba(255,140,0,.8)";
-            context.lineWidth = 15/dist(u, v);
+            context.lineWidth = 1.5 * ( ((canvas.height/5) - dist(u,v)) / (canvas.height/5) );
             context.moveTo(u.x, u.y);
             context.lineTo(v.x, v.y);
             context.stroke();
@@ -171,13 +172,14 @@ var mouse = {
     function drawLineFormer(u, v) {
         if(mobile){
             context.beginPath();
-            context.strokeStyle = "rgba(255,255,255,.5)";
+            context.strokeStyle = "rgba(255,255,255,.25)";
             context.moveTo(u.x, u.y);
             context.lineTo(v.x, v.y);
+            let magnitude = (canvas.width/2-dist(u,v))/(canvas.width/2);
             if(canvas.width<650)
-                context.lineWidth = 5/dist(u, v);
+                context.lineWidth = .25 * magnitude;
             else
-                context.lineWidth = 10/dist(u, v);
+                context.lineWidth = .5 * magnitude;
             context.setLineDash([5]);
             context.stroke();
         }
@@ -186,7 +188,7 @@ var mouse = {
             context.strokeStyle = "rgba(200,200,200,.5)";
             context.moveTo(u.x, u.y);
             context.lineTo(v.x, v.y);
-            context.lineWidth = 10/dist(u, v);
+            context.lineWidth = .75 * ( ((canvas.height/5) - dist(u,v)) / (canvas.height/5) );
             context.setLineDash([5]);
             context.stroke();
         }
