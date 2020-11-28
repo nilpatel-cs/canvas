@@ -1,4 +1,4 @@
-const canvas = document.getElementById('canvas');
+const canvas = document.getElementById('djikstra');
 const context = canvas.getContext('2d');
 canvas.width=window.innerWidth;
 canvas.height=window.innerHeight;
@@ -9,7 +9,7 @@ if(window.innerWidth<=1024)
     mobile = true;
 else{
     mobile = false;
-    
+
 }
 var mouse = {
     x: -9,
@@ -31,15 +31,15 @@ var mouse = {
             spawn();
     }
 
-/*event for mouse coordinates and leaving entering window for desktop */    
+/*event for mouse coordinates and leaving entering window for desktop */
     if(!mobile){
-        
+
         window.addEventListener("mousemove", function showCoords(event) {
             posX = event.clientX;
             posY = event.clientY;
             spawn();
         });
-    
+
         window.addEventListener("mouseout", function (event) {
             context.clearRect(0, 0, innerWidth, innerHeight);
             mouse.x = -10;
@@ -69,12 +69,12 @@ var mouse = {
 		    else {
 			    for (i = 0; i < particleArray.length; i++) {
                     particleArray[i].follow(dx, dy);
-                    
+
 			    }
 		    }
 	    }
     }
-    
+
 
     class particle {
 
@@ -146,13 +146,16 @@ var mouse = {
 
     function drawLine(u, v) {
         if(mobile){
-            context.beginPath();
-            context.setLineDash([]);
-            context.strokeStyle = "darkOrange";
-            context.lineWidth = 50/dist(u,v);
-            context.moveTo(u.x, u.y);
-            context.lineTo(v.x, v.y);
-            context.stroke();
+          context.beginPath();
+          context.setLineDash([]);
+          context.strokeStyle = "rgba(255,140,0,.8)";
+          if(canvas.width<650)
+                context.lineWidth = 10/dist(u, v);
+          else
+            context.lineWidth = 15/dist(u, v);
+          context.moveTo(u.x, u.y);
+          context.lineTo(v.x, v.y);
+          context.stroke();
         }
         else{
             context.beginPath();
@@ -168,10 +171,13 @@ var mouse = {
     function drawLineFormer(u, v) {
         if(mobile){
             context.beginPath();
-            context.strokeStyle = "rgba(200,200,200,.5)";
+            context.strokeStyle = "rgba(255,255,255,.5)";
             context.moveTo(u.x, u.y);
             context.lineTo(v.x, v.y);
-            context.lineWidth = 50/dist(u,v);
+            if(canvas.width<650)
+                context.lineWidth = 5/dist(u, v);
+            else
+                context.lineWidth = 10/dist(u, v);
             context.setLineDash([5]);
             context.stroke();
         }
@@ -193,11 +199,11 @@ var mouse = {
             context.clearRect(0, 0, innerWidth, innerHeight);
             for (i = 0; i < particleArray.length; i++) {
                 particleArray[i].move();
-            } 
+            }
             djikstra();
         }
         else{
-            return; 
+            return;
             }
     }
     if(mobile)
