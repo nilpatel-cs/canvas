@@ -148,7 +148,7 @@ var mouse = {
         if(mobile){
           context.beginPath();
           context.setLineDash([]);
-          context.strokeStyle = "rgba(255,140,0,.8)";
+          context.strokeStyle = "rgba(255,140,0,.5)";
           let magnitude = (canvas.width/2-dist(u,v))/(canvas.width/2);
           if(canvas.width<650)
                 context.lineWidth = .5 * magnitude;
