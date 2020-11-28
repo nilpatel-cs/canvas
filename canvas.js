@@ -16,15 +16,39 @@ var particleArray = null;
 
     function spawn() {
         context.clearRect(0, 0, innerWidth, innerHeight);
-
-            particleArray = [];
-            for (i = 0; i < 50; i++) {
-                particleArray[i] = new particle(i);
+        if(mobile){
+                particleArray = [];
+                for (i = 0; i < 50; i++) {
+                    particleArray[i] = new particle(i);
+                }
         }
+        else{
+            dx = event.x - mouse.x;
+		    dy = event.y - mouse.y;
+		    mouse.x = event.x;
+		    mouse.y = event.y;
+		    if (particleArray == null) {
+			    particleArray = [];
+			    for (i = 0; i < 30; i++) {
+				    particleArray[i] = new particle(i);
+			    }
+		    }
+		    else {
+			    for (i = 0; i < particleArray.length; i++) {
+				    particleArray[i].follow(dx, dy);
+			    }
+		    }
+	    }
     }
+    
+    
         
 
     window.onresize = function () {
+        if(mobile&&window.innerWidth>1024)
+            mobile = false;
+        else if(!mobile&&window.innerWidth<=1024)
+            mobile = true;
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         spawn();
