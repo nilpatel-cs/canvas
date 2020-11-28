@@ -2,3 +2,11 @@ body{
     background-color: #121212;
     overflow: hidden;    
 }
+#test{
+    color:hotpink;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: 200    ;
+}

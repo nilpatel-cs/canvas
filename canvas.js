@@ -5,9 +5,8 @@ canvas.height=window.innerHeight;
 
 
 
+document.getElementById('test').innerHTML = window.innerWidth;
 
-
-if(window.innerWidth<=1024){
 
 var particleArray = null;
 
@@ -98,7 +97,6 @@ var particleArray = null;
     }
     spawn();
     animate();
-}
 
 /*shared functions */
 function dist(u, v) {
