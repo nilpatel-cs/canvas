@@ -9,32 +9,31 @@ if(window.innerWidth<=1024)
     mobile = true;
 else{
     mobile = false;
+    
 }
-let mouse = {
-    x: -1,
+var mouse = {
+    x: -9,
     y: null
 }
 
  window.onresize = function () {
-        if(mobile&&window.innerWidth>1024){
+        if(mobile && window.innerWidth>1024){
             mobile = false;
             location.reload();
-        
         }
-        else if(!mobile&&window.innerWidth<=1024){
+        else if(!mobile && window.innerWidth<=1024){
             mobile = true;
             location.reload();
         }
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        spawn();
+        if(mobile)
+            spawn();
     }
-
-
 
 /*event for mouse coordinates and leaving entering window for desktop */    
     if(!mobile){
-     
+        
         window.addEventListener("mousemove", function showCoords(event) {
             posX = event.clientX;
             posY = event.clientY;
@@ -43,7 +42,7 @@ let mouse = {
     
         window.addEventListener("mouseout", function (event) {
             context.clearRect(0, 0, innerWidth, innerHeight);
-            posX = -5;
+            mouse.x = -10;
             particleArray = null;
     });
     }
@@ -61,7 +60,7 @@ let mouse = {
 		    dy = posY - mouse.y;
 		    mouse.x = posX;
 		    mouse.y = posY;
-		    if (particleArray == null) {
+		    if (particleArray == null||mouse.x<0) {
 			    particleArray = [];
 			    for (i = 0; i < 30; i++) {
 				    particleArray[i] = new particle(i);
@@ -69,7 +68,8 @@ let mouse = {
 		    }
 		    else {
 			    for (i = 0; i < particleArray.length; i++) {
-				    particleArray[i].follow(dx, dy);
+                    particleArray[i].follow(dx, dy);
+                    
 			    }
 		    }
 	    }
@@ -98,7 +98,6 @@ let mouse = {
                 this.xVelocity = plusMinus() * Math.random() * (canvas.height / 5000);
                 this.yVelocity = plusMinus() * Math.random() * (canvas.height / 5000);
             }
-           
             this.draw();
         }
 
@@ -130,8 +129,8 @@ let mouse = {
                 }
             }
             else if (canvas.height / 10 < Math.sqrt(Math.pow(this.x + this.xVelocity - mouse.x, 2) + Math.pow(this.y + this.yVelocity - mouse.y, 2))) {
-                    this.xVelocity *= -1;
-                    this.yVelocity *= -1;
+                this.xVelocity *= -1;
+                this.yVelocity *= -1;
             }
             this.x += this.xVelocity;
             this.y += this.yVelocity;
@@ -142,10 +141,11 @@ let mouse = {
             this.x += x;
             this.y += y;
             this.draw();
-    }
+        }
     }
 
     function drawLine(u, v) {
+        if(mobile){
         context.beginPath();
         context.setLineDash([]);
         context.strokeStyle = "darkOrange";
@@ -153,9 +153,20 @@ let mouse = {
         context.moveTo(u.x, u.y);
         context.lineTo(v.x, v.y);
         context.stroke();
+        }
+        else{
+            context.beginPath();
+            context.setLineDash([]);
+            context.strokeStyle = "rgba(255,140,0,.8)";
+            context.lineWidth = 15/dist(u, v);
+            context.moveTo(u.x, u.y);
+            context.lineTo(v.x, v.y);
+            context.stroke();
+            }
     }
 
     function drawLineFormer(u, v) {
+        if(mobile){
         context.beginPath();
         context.strokeStyle = "rgba(200,200,200,.5)";
         context.moveTo(u.x, u.y);
@@ -163,25 +174,34 @@ let mouse = {
         context.lineWidth = 50/dist(u,v);
         context.setLineDash([5]);
         context.stroke();
+        }
+        else{
+            context.beginPath();
+            context.strokeStyle = "rgba(200,200,200,.5)";
+            context.moveTo(u.x, u.y);
+            context.lineTo(v.x, v.y);
+            context.lineWidth = 10/dist(u, v);
+            context.setLineDash([5]);
+            context.stroke();
+        }
     }
 
 
     function animate() {
-        if(mobile||mouse.x>0){
         requestAnimationFrame(animate);
-        context.clearRect(0, 0, innerWidth, innerHeight);
+        if(mobile||mouse.x>0){
+            context.clearRect(0, 0, innerWidth, innerHeight);
             for (i = 0; i < particleArray.length; i++) {
                 particleArray[i].move();
-        } 
-        djikstra();
+            } 
+            djikstra();
         }
-        else
+        else{
             return; 
-        
+            }
     }
     if(mobile)
         spawn();
-    animate();
 
 /*shared functions */
 function dist(u, v) {
@@ -247,3 +267,4 @@ function djikstra() {
         return lowest;
     }
 }
+animate();
