@@ -22,12 +22,13 @@ var particleArray = null;
         }
     }
         
-}
+
     window.onresize = function () {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         spawn();
     }
+}
     class particle {
 
         constructor(i) {
