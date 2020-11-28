@@ -146,13 +146,13 @@ var mouse = {
 
     function drawLine(u, v) {
         if(mobile){
-        context.beginPath();
-        context.setLineDash([]);
-        context.strokeStyle = "darkOrange";
-        context.lineWidth = 50/dist(u,v);
-        context.moveTo(u.x, u.y);
-        context.lineTo(v.x, v.y);
-        context.stroke();
+            context.beginPath();
+            context.setLineDash([]);
+            context.strokeStyle = "darkOrange";
+            context.lineWidth = 50/dist(u,v);
+            context.moveTo(u.x, u.y);
+            context.lineTo(v.x, v.y);
+            context.stroke();
         }
         else{
             context.beginPath();
@@ -167,13 +167,13 @@ var mouse = {
 
     function drawLineFormer(u, v) {
         if(mobile){
-        context.beginPath();
-        context.strokeStyle = "rgba(200,200,200,.5)";
-        context.moveTo(u.x, u.y);
-        context.lineTo(v.x, v.y);
-        context.lineWidth = 50/dist(u,v);
-        context.setLineDash([5]);
-        context.stroke();
+            context.beginPath();
+            context.strokeStyle = "rgba(200,200,200,.5)";
+            context.moveTo(u.x, u.y);
+            context.lineTo(v.x, v.y);
+            context.lineWidth = 50/dist(u,v);
+            context.setLineDash([5]);
+            context.stroke();
         }
         else{
             context.beginPath();
