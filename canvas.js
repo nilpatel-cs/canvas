@@ -6,56 +6,108 @@ canvas.height=window.innerHeight;
 var particleArray = null;
 
 
-function spawn() {
-	context.clearRect(0, 0, innerWidth, innerHeight);
+    function spawn() {
+        context.clearRect(0, 0, innerWidth, innerHeight);
 
-		particleArray = [];
-		for (i = 0; i < 50; i++) {
-            particleArray[i] = new particle(i);
-    }
-
-	
-}
-window.onresize = function () {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    spawn();
-}
-class particle {
-
-    constructor(i) {
-      
-        this.id = i;
-        this.x = Math.random() * canvas.width / 4 * plusMinus() + canvas.width / 2;
-
-        this.y = canvas.height / 2 + plusMinus() *Math.random()* Math.sqrt(Math.pow(canvas.width / 4, 2) - Math.pow(this.x - canvas.width / 2, 2));
-        
-        this.size = 3;
-        this.xVelocity = plusMinus() * Math.random() * (canvas.width / 1000);
-        this.yVelocity = plusMinus() * Math.random() * (canvas.width / 1000);
-        this.draw();
-    }
-
-    draw() {
-        context.beginPath();
-        context.fillStyle = "white";
-        context.strokeStyle = "white";
-        context.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-        context.closePath();
-        context.fill();
-    }
-    move() {
-        if (canvas.width/4<Math.sqrt(Math.pow(this.x + this.xVelocity - canvas.width / 2, 2) + Math.pow(this.y + this.yVelocity - canvas.height / 2, 2))) {
-            this.xVelocity *= -1;
-            this.yVelocity *= -1;
+            particleArray = [];
+            for (i = 0; i < 50; i++) {
+                particleArray[i] = new particle(i);
         }
-                
-         
-    
-        this.x += this.xVelocity;
-        this.y += this.yVelocity;
-        this.draw();
+
+        
     }
+    window.onresize = function () {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        spawn();
+    }
+    class particle {
+
+        constructor(i) {
+        
+            this.id = i;
+            this.x = Math.random() * canvas.width / 4 * plusMinus() + canvas.width / 2;
+
+            this.y = canvas.height / 2 + plusMinus() *Math.random()* Math.sqrt(Math.pow(canvas.width / 4, 2) - Math.pow(this.x - canvas.width / 2, 2));
+            
+            this.size = 3;
+            this.xVelocity = plusMinus() * Math.random() * (canvas.width / 1500);
+            this.yVelocity = plusMinus() * Math.random() * (canvas.width / 1500);
+            this.draw();
+        }
+
+        draw() {
+            context.beginPath();
+            context.fillStyle = "white";
+            context.strokeStyle = "white";
+            context.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+            context.closePath();
+            context.fill();
+        }
+        move() {
+            if (canvas.width/4<Math.sqrt(Math.pow(this.x + this.xVelocity - canvas.width / 2, 2) + Math.pow(this.y + this.yVelocity - canvas.height / 2, 2))) {
+                this.xVelocity *= -1;
+                this.yVelocity *= -1;
+            }
+                    
+            
+        
+            this.x += this.xVelocity;
+            this.y += this.yVelocity;
+            this.draw();
+        }
+    }
+
+
+    function drawLine(u, v) {
+        context.beginPath();
+        context.setLineDash([]);
+        context.strokeStyle = "darkOrange";
+        context.lineWidth = 50/dist(u,v);
+        context.moveTo(u.x, u.y);
+        context.lineTo(v.x, v.y);
+        context.stroke();
+    }
+
+    function drawLineFormer(u, v) {
+        context.beginPath();
+        context.strokeStyle = "rgba(200,200,200,.5)";
+        context.moveTo(u.x, u.y);
+        context.lineTo(v.x, v.y);
+        context.lineWidth = 50/dist(u,v);
+        context.setLineDash([5]);
+        context.stroke();
+    }
+
+
+    function animate() {
+        requestAnimationFrame(animate);
+        context.clearRect(0, 0, innerWidth, innerHeight);
+            for (i = 0; i < particleArray.length; i++) {
+                particleArray[i].move();
+        } 
+        djikstra();
+    
+        
+    }
+    spawn();
+    animate();
+
+
+/*shared functions */
+function dist(u, v) {
+    result = Math.sqrt(Math.pow(u.x - v.x, 2) + Math.pow(u.y - v.y, 2));
+    return result;
+}
+function plusMinus() {
+    let sign = Math.random() - .5;
+    if (sign < 0) {
+        sign = -1;
+    }
+    else {
+        sign = 1;
+    }
+    return sign;
 }
 
 function djikstra() {
@@ -92,10 +144,7 @@ function djikstra() {
         drawLine(particleArray[previous[i]], particleArray[i]);
     }
     //calculate the distance between two particles
-    function dist(u, v) {
-        result = Math.sqrt(Math.pow(u.x - v.x, 2) + Math.pow(u.y - v.y, 2));
-        return result;
-    }
+
 
 
     //return index of smallest value in array
@@ -110,45 +159,3 @@ function djikstra() {
     }
 }
 
-function drawLine(u, v) {
-    context.beginPath();
-    context.setLineDash([]);
-    context.strokeStyle = "darkOrange";
-    context.lineWidth = 1;
-    context.moveTo(u.x, u.y);
-    context.lineTo(v.x, v.y);
-    context.stroke();
-}
-
-function drawLineFormer(u, v) {
-    context.beginPath();
-    context.strokeStyle = "rgba(200,200,200,.5)";
-    context.moveTo(u.x, u.y);
-    context.lineTo(v.x, v.y);
-    context.lineWidth = .1;
-    context.setLineDash([5]);
-    context.stroke();
-}
-function plusMinus() {
-    let sign = Math.random() - .5;
-    if (sign < 0) {
-        sign = -1;
-    }
-    else {
-        sign = 1;
-    }
-    return sign;
-}
-
-function animate() {
-    requestAnimationFrame(animate);
-    context.clearRect(0, 0, innerWidth, innerHeight);
-        for (i = 0; i < particleArray.length; i++) {
-            particleArray[i].move();
-    } 
-    djikstra();
-   
-    
-}
-spawn();
-animate();
