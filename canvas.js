@@ -7,9 +7,10 @@ canvas.height=window.innerHeight;
 
 if(window.innerWidth<=1024)
     var mobile = true;
+else
+    var mobile = false;
 
 
-if(mobile){
 var particleArray = null;
 
 
@@ -65,7 +66,7 @@ var particleArray = null;
             this.draw();
         }
     }
-}
+
 
     function drawLine(u, v) {
         context.beginPath();
