@@ -1,11 +1,11 @@
 const canvas = document.getElementById('djikstra');
 const context = canvas.getContext('2d');
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
+canvas.width=document.body.getBoundingClientRect().width;
+canvas.height=document.body.getBoundingClientRect().height;
 var particleArray = null;
 var posX, posY;
 var mobile =null;
-if(window.innerWidth<=1024)
+if(document.body.getBoundingClientRect().width<=1024)
     mobile = true;
 else{
     mobile = false;
@@ -17,16 +17,16 @@ var mouse = {
 }
 
  window.onresize = function () {
-        if(mobile && window.innerWidth>1024){
+        if(mobile && document.body.getBoundingClientRect().width>1024){
             mobile = false;
             location.reload();
         }
-        else if(!mobile && window.innerWidth<=1024){
+        else if(!mobile && document.body.getBoundingClientRect().width<=1024){
             mobile = true;
             location.reload();
         }
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas.width = document.body.getBoundingClientRect().width;
+        canvas.height = document.body.getBoundingClientRect().height;
         if(mobile)
             spawn();
     }
