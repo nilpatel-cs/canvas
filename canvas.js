@@ -5,7 +5,9 @@ canvas.height=window.innerHeight;
 
 
 
-document.getElementById('test').innerHTML = window.innerWidth;
+if(window.innerWidth<=1024){
+    document.getElementById('test').innerHTML='TRUE';
+}
 
 
 var particleArray = null;
