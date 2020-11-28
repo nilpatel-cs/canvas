@@ -1,5 +1,5 @@
 body{
-    background-color: #181818;
+    background: radial-gradient(#181818 35%,#000000 65%);
     overflow: hidden;
 }
 #logo {
