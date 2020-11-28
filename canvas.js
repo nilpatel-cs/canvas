@@ -3,6 +3,12 @@ const context = canvas.getContext('2d');
 canvas.width=window.innerWidth;
 canvas.height=window.innerHeight;
 
+
+
+
+
+if(window.innerWidth<=1024){
+
 var particleArray = null;
 
 
@@ -92,7 +98,7 @@ var particleArray = null;
     }
     spawn();
     animate();
-
+}
 
 /*shared functions */
 function dist(u, v) {
